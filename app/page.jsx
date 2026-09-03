@@ -1,0 +1,10 @@
+"use client";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import "./components/dashboard/dashboard-modern.css";
+import KpiCards from "./components/dashboard/KpiCards";
+import SmartInsight from "./components/dashboard/SmartInsight";
+import DistributionCharts from "./components/dashboard/DistributionCharts";
+import StatusPendataan from "./components/dashboard/StatusPendataan";
+const MapPreview = dynamic(() => import("./components/smart-map/MapCanvas"), { ssr:false, loading:()=> <div className="map-loading">Memuat peta…</div> });
+export default function DashboardPage(){const [status,setStatus]=useState("");return <main className="dashboard-page"><div className="dashboard-main"><section className="dashboard-section summary-section"><div className="section-heading"><div><p className="section-kicker">OVERVIEW</p><h2>Ringkasan &amp; Insight</h2><p className="section-description">Current state dari data SE kabupaten ini.</p></div></div><KpiCards/><div className="summary-bottom"><SmartInsight/><StatusPendataan/></div></section><section className="dashboard-section analysis-section"><div className="section-heading"><div><p className="section-kicker">DATA EXPLORATION</p><h2>Analisis Data</h2><p className="section-description">Ringkasan status terbaru tanpa membaca seluruh history.</p></div></div><DistributionCharts/></section><section className="dashboard-section spatial-section"><div className="section-heading"><div><p className="section-kicker">GEOSPATIAL MONITORING</p><h2>Eksplorasi Spasial</h2><p className="section-description">Preview titik dari se_records_latest dengan koordinat valid.</p></div></div><div className="map-card"><div className="map-card-header"><div><p className="map-eyebrow">PETA SEBARAN</p><h3 className="map-title">Sebaran Latest Records</h3><p className="map-subtitle">Marker dimuat berdasarkan area tampilan untuk menjaga performa dan egress.</p></div><div className="map-status"><span/>LIVE</div></div><div className="map-container"><MapPreview status={status}/></div></div></section></div></main>}
