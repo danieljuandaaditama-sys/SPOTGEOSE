@@ -1,0 +1,3 @@
+"use client";
+import { useEffect, useState } from "react";
+export default function SmartInsight(){const [items,setItems]=useState([]); const [i,setI]=useState(0); useEffect(()=>{fetch("/api/dashboard-summary",{cache:"no-store"}).then(r=>r.json()).then(x=>setItems(x.insights||[])).catch(()=>{});},[]); useEffect(()=>{if(items.length<2)return;const t=setInterval(()=>setI(v=>(v+1)%items.length),5000);return()=>clearInterval(t)},[items.length]); return <section className="insight-card"><div className="insight-icon">✦</div><div><div className="insight-heading">SMART INSIGHT</div><p>{items[i]||"Memuat insight…"}</p></div><div className="live-indicator">LIVE</div></section>}
