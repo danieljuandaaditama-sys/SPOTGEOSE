@@ -1,0 +1,9 @@
+"use client";
+import { useEffect, useState } from "react";
+const ITEMS = [["approved","Approved","✓"],["submitted","Submitted","◷"],["rejected","Rejected","!"],["draft","Draft","○"]];
+export default function StatusPendataan(){
+ const [status,setStatus]=useState({});
+ useEffect(()=>{fetch("/api/dashboard-summary",{cache:"no-store"}).then(r=>r.json()).then(x=>setStatus(x.status||{})).catch(()=>{});},[]);
+ const total=Object.values(status).reduce((a,b)=>a+Number(b||0),0);
+ return <div className="status-card"><div className="status-card-heading"><div><p className="status-eyebrow">STATUS ASSIGNMENT</p><h4>Latest state</h4></div><span className="status-total">{total.toLocaleString("id-ID")}</span></div><div className="status-list">{ITEMS.map(([key,label,icon])=><div className="status-row" key={key}><div className="status-name"><span className={`status-icon status-${key}`}>{icon}</span><span>{label}</span></div><strong>{Number(status[key]||0).toLocaleString("id-ID")}</strong></div>)}</div></div>;
+}
